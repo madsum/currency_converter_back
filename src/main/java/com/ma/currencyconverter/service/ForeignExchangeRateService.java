@@ -62,7 +62,7 @@ public class ForeignExchangeRateService {
         return exchangeCurrencyInfo;
     }
 
-    double exchangeRateFormServer(JsonObject allRates, String currency) {
+    public double exchangeRateFormServer(JsonObject allRates, String currency) {
         AtomicReference<Double> rate = new AtomicReference<>(0d);
         allRates.keySet().stream().filter(key -> key.equalsIgnoreCase(currency)).forEach(key -> {
             Object value = allRates.get(key);

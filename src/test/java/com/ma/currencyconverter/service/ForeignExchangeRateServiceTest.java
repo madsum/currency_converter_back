@@ -5,14 +5,13 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ForeignExchangeRateServiceTest {
 
-    private ForeignExchangeRateService foreignExchangeRateService;
+    private static ForeignExchangeRateService foreignExchangeRateService;
     @BeforeAll
-    void init(){
+    static void init(){
         foreignExchangeRateService = new ForeignExchangeRateService();
     }
 
