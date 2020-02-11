@@ -9,6 +9,10 @@ import java.util.Optional;
 
 public class ExchangeCurrencyInfo {
 
+/**
+ * This class holds all necessary values for exchange currency
+ * @since 11-02-2020
+ * */
     private String currencySymbol;
     private Locale numberLocale;
     private double rate;
@@ -18,11 +22,17 @@ public class ExchangeCurrencyInfo {
     private double exchangeAmount;
     private String localNumberFormatStr;
 
-
-    public void setSymbolLocaleInfo(JsonObject allRates, String inputCurrency){
+    /**
+     * This will set currency symbol and local number format based on
+     * the exchange currency
+     * @since 10-02-2020
+     * @param allRates
+     * @param exchangeCurrency
+     */
+    public void setSymbolLocaleInfo(JsonObject allRates, String exchangeCurrency){
         Optional<String> matchCurrency =  allRates.keySet()
                 .stream()
-                .filter(key -> key.equalsIgnoreCase(inputCurrency))
+                .filter(key -> key.equalsIgnoreCase(exchangeCurrency))
                 .findAny();
         String currency = null;
         if(matchCurrency.isPresent()) {
@@ -46,14 +56,19 @@ public class ExchangeCurrencyInfo {
         }
     }
 
+    /**
+     * This will set a localized string with local number format and
+     * the currency symbol
+     * the exchange currency
+     * @since 10-02-2020
+     */
     private void setLocalNumberFormatStr(){
         NumberFormat nF = NumberFormat.getInstance(numberLocale);
         nF.setMinimumFractionDigits(2);
         nF.setMaximumFractionDigits(4);
-        localNumberFormatStr = "Exchange rate is: "+rate+". Amount "
+        localNumberFormatStr = "Exchange rate is: "+nF.format(rate)+". Amount "
                 + amount +" "+currency+" total exchanged amount "
-                + exchangeAmount+" "+currencySymbol;
-
+                + nF.format(exchangeAmount)+" "+currencySymbol;
     }
 
     public String getCurrencySymbol() {
@@ -113,7 +128,12 @@ public class ExchangeCurrencyInfo {
     }
 
     public void setCurrency(String currency) {
-        this.currency = currency;
+        if(currency.isEmpty()){
+            this.currency = "euro";
+        }else{
+            this.currency = currency;
+        }
+
     }
 
     public String getExchangeCurrency() {

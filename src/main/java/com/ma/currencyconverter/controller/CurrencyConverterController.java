@@ -21,7 +21,7 @@ public class CurrencyConverterController {
     private ForeignExchangeRateService foreignExchangeRateService;
 
     /**
-     * This will send exchanged currency amout in response with HTTP status code 200.
+     * This will send exchanged currency amount in response with HTTP status code 200.
      * @since 10-02-2020
      * @param currency
      * @param exCurrency

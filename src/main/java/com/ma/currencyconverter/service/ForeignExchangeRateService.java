@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -24,7 +26,16 @@ public class ForeignExchangeRateService {
 
     private static String europeanCentralBankExchangeUrl = "https://api.exchangeratesapi.io/latest";
     private static String exchangeRateApi = "https://api.exchangerate-api.com/v4/latest/";
-    private ExchangeCurrencyInfo exchangeCurrencyInfo = new ExchangeCurrencyInfo() ;
+    private ExchangeCurrencyInfo exchangeCurrencyInfo;
+
+    /**
+     * This will return ExchangeCurrencyInfo instance with all required value
+     * @since 10-02-2020
+     * @param currency
+     * @param exchangeCurrency
+     * @param amount
+     * @return
+     */
 
     public ExchangeCurrencyInfo getExchangeCurrencyInfo(String currency, String exchangeCurrency, Double amount ) throws IOException {
         String strUrl;
@@ -52,27 +63,53 @@ public class ForeignExchangeRateService {
         // Accessing object
         JsonElement rates = members.get("rates");
         JsonObject allRates = rates.getAsJsonObject();
-        double rate = exchangeRateFormServer(allRates, exchangeCurrency);
-        exchangeCurrencyInfo.setRate(rate);
+        // gets actual exchange rate
+        double exchangeRate = exchangeRateFormServer(allRates, exchangeCurrency);
+        // crate new instance of exchangeCurrencyInfo for each new request
+        exchangeCurrencyInfo = new ExchangeCurrencyInfo() ;
+        exchangeCurrencyInfo.setRate(exchangeRate);
         exchangeCurrencyInfo.setAmount(amount);
         exchangeCurrencyInfo.setCurrency(currency);
         exchangeCurrencyInfo.setExchangeCurrency(exchangeCurrency);
-        exchangeCurrencyInfo.setExchangeAmount(rate*amount);
+        exchangeCurrencyInfo.setExchangeAmount(round(exchangeRate*amount, 2));
         exchangeCurrencyInfo.setSymbolLocaleInfo(allRates, exchangeCurrency );
         return exchangeCurrencyInfo;
     }
 
+    /**
+     * This will return  exchange rate
+     * @since 10-02-2020
+     * @param allRates
+     * @param currency
+     * @return
+     */
+
     public double exchangeRateFormServer(JsonObject allRates, String currency) {
-        AtomicReference<Double> rate = new AtomicReference<>(0d);
+        AtomicReference<Double> exchangeRate = new AtomicReference<>(0d);
         allRates.keySet().stream().filter(key -> key.equalsIgnoreCase(currency)).forEach(key -> {
             Object value = allRates.get(key);
             logger.info("key: " + key + " value: " + value);
             try {
-                rate.set(Double.parseDouble(value.toString()));
+                exchangeRate.set(Double.parseDouble(value.toString()));
             } catch (NumberFormatException ex) {
                 throw new NumberFormatException(ex.getMessage());
             }
         });
-        return rate.get();
+        return exchangeRate.get();
+    }
+
+    /**
+     * This will rounds double value to the n places
+     * @since 10-02-2020
+     * @param value
+     * @param places
+     * @return
+     */
+    public double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(Double.toString(value));
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }
