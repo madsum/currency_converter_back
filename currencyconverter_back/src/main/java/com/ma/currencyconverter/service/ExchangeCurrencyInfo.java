@@ -1,6 +1,9 @@
 package com.ma.currencyconverter.service;
 
 import com.google.gson.JsonObject;
+import com.ma.currencyconverter.controller.CurrencyConverterController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.text.NumberFormat;
 import java.util.Currency;
@@ -9,6 +12,7 @@ import java.util.Optional;
 
 public class ExchangeCurrencyInfo {
 
+    private static final Logger logger = LogManager.getLogger(ExchangeCurrencyInfo.class);
 /**
  * This class holds all necessary values for exchange currency
  * @since 11-02-2020
@@ -51,7 +55,7 @@ public class ExchangeCurrencyInfo {
             numberLocale = new Locale(currencyCode);
             Currency symbolCurrency = Currency.getInstance(locale);
             currencySymbol = symbolCurrency.getSymbol();
-            System.out.println(currencySymbol);
+            logger.info("currencySymbol: "+currencySymbol);
             setLocalNumberFormatStr();
         }
     }
