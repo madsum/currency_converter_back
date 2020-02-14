@@ -70,8 +70,8 @@ public class ForeignExchangeRateService {
         exchangeCurrencyInfo = new ExchangeCurrencyInfo() ;
         exchangeCurrencyInfo.setRate(exchangeRate);
         exchangeCurrencyInfo.setAmount(amount);
-        exchangeCurrencyInfo.setCurrency(currency);
-        exchangeCurrencyInfo.setExchangeCurrency(exchangeCurrency);
+        exchangeCurrencyInfo.setCurrency(currency.toUpperCase());
+        exchangeCurrencyInfo.setExchangeCurrency(exchangeCurrency.toUpperCase());
         exchangeCurrencyInfo.setExchangeAmount(round(exchangeRate*amount, 2));
         exchangeCurrencyInfo.setSymbolLocaleInfo(allRates, exchangeCurrency );
         return exchangeCurrencyInfo;
