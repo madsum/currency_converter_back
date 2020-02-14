@@ -70,7 +70,7 @@ public class ExchangeCurrencyInfo {
         NumberFormat nF = NumberFormat.getInstance(numberLocale);
         nF.setMinimumFractionDigits(2);
         nF.setMaximumFractionDigits(4);
-        localNumberFormatStr = "Exchange rate is: "+nF.format(rate)+". Amount "
+        localNumberFormatStr = "Exchange rate is: "+nF.format(rate)+".\nAmount "
                 + amount +" "+currency+" total exchanged amount "
                 + nF.format(exchangeAmount)+" "+currencySymbol;
     }

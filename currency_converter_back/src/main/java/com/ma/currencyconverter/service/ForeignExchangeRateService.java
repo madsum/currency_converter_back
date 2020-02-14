@@ -65,6 +65,7 @@ public class ForeignExchangeRateService {
         JsonObject allRates = rates.getAsJsonObject();
         // gets actual exchange rate
         double exchangeRate = exchangeRateFormServer(allRates, exchangeCurrency);
+        exchangeRate = round(exchangeRate,2);
         // crate new instance of exchangeCurrencyInfo for each new request
         exchangeCurrencyInfo = new ExchangeCurrencyInfo() ;
         exchangeCurrencyInfo.setRate(exchangeRate);
@@ -85,17 +86,17 @@ public class ForeignExchangeRateService {
      */
 
     public double exchangeRateFormServer(JsonObject allRates, String currency) {
-        AtomicReference<Double> exchangeRate = new AtomicReference<>(0d);
+        final Double[] exchangeRate = {0d};
         allRates.keySet().stream().filter(key -> key.equalsIgnoreCase(currency)).forEach(key -> {
             Object value = allRates.get(key);
             logger.info("key: " + key + " value: " + value);
             try {
-                exchangeRate.set(Double.parseDouble(value.toString()));
+                exchangeRate[0] = Double.parseDouble(value.toString());
             } catch (NumberFormatException ex) {
                 throw new NumberFormatException(ex.getMessage());
             }
         });
-        return exchangeRate.get();
+        return exchangeRate[0];
     }
 
     /**
@@ -110,6 +111,9 @@ public class ForeignExchangeRateService {
 
         BigDecimal bd = new BigDecimal(Double.toString(value));
         bd = bd.setScale(places, RoundingMode.HALF_UP);
+        if(bd.compareTo(new BigDecimal("0.00")) == 0){
+           return value;
+        }
         return bd.doubleValue();
     }
 }

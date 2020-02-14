@@ -5,12 +5,12 @@ import com.ma.currencyconverter.service.ForeignExchangeRateService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.text.NumberFormat;
 
 @RestController
 public class CurrencyConverterController {
@@ -28,6 +28,7 @@ public class CurrencyConverterController {
      * @param amount
      * @return
      */
+    //@CrossOrigin(origins = "http://localhost:8080/")
     @GetMapping("/excurrency")
     public String getExCurrency(@RequestParam(required=true) String currency,
                                 @RequestParam(required=true) String exCurrency,
@@ -41,6 +42,7 @@ public class CurrencyConverterController {
         }catch (NumberFormatException | IOException ex){
             return "It must be a number";
         }
+        logger.info(exchangeCurrencyInfo.getLocalNumberFormatStr());
         return exchangeCurrencyInfo.getLocalNumberFormatStr();
     }
 }
