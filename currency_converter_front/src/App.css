@@ -37,7 +37,7 @@ input {
   font-weight: 700;
 }
 .alert {
-  width:400px;    
+  width:320px;    
 }
 
 .suggestions li:not(:last-of-type) {

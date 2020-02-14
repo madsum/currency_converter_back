@@ -52,7 +52,7 @@ class App extends Component {
         return (
             <div className="App">
                <Alert className="alart" variant="success">
-                <h1>Currency converter</h1>
+                <h2>Currency converter</h2>
                 </Alert>
                 <AutocompleteDropDown
                     data={
