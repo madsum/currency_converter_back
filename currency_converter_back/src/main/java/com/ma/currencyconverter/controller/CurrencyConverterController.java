@@ -42,7 +42,6 @@ public class CurrencyConverterController {
         }catch (NumberFormatException | IOException ex){
             return "It must be a number";
         }
-        logger.info(exchangeCurrencyInfo.getLocalNumberFormatStr());
         return exchangeCurrencyInfo.getLocalNumberFormatStr();
     }
 }

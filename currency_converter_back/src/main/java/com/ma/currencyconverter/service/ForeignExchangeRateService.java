@@ -111,7 +111,7 @@ public class ForeignExchangeRateService {
 
         BigDecimal bd = new BigDecimal(Double.toString(value));
         bd = bd.setScale(places, RoundingMode.HALF_UP);
-        if(bd.compareTo(new BigDecimal("0.00")) == 0){
+        if(bd.compareTo(new BigDecimal("0")) == 0){
            return value;
         }
         return bd.doubleValue();
