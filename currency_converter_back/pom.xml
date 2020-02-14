@@ -16,6 +16,9 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<sonar.projectKey>madsum_currencyconverter_back_and_front</sonar.projectKey>
+		<sonar.organization>madsum</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 
 	<dependencies>
@@ -53,7 +56,6 @@
 			<version>1.10.19</version>
 			<scope>test</scope>
 		</dependency>
-
 
 	</dependencies>
 
