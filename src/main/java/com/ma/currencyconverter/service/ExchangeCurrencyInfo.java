@@ -70,9 +70,15 @@ public class ExchangeCurrencyInfo {
         NumberFormat nF = NumberFormat.getInstance(numberLocale);
         nF.setMinimumFractionDigits(2);
         nF.setMaximumFractionDigits(4);
-        localNumberFormatStr = "Exchange rate is: "+nF.format(rate)+"\n"
-                + amount +" "+currency+" exchanged amount will be "
-                + nF.format(exchangeAmount)+" "+currencySymbol;
+        if(currencySymbol.equals("€")){
+            localNumberFormatStr = "Valuuttakurssi on: "+nF.format(rate)+"\n"
+                    + amount +" "+currency+" vaihto summa on "
+                    + nF.format(exchangeAmount)+" "+currencySymbol;
+        }else{
+            localNumberFormatStr = "Exchange rate is: "+nF.format(rate)+"\n"
+                    + amount +" "+currency+" exchanged amount will be "
+                    + nF.format(exchangeAmount)+" "+currencySymbol;
+        }
     }
 
     public String getCurrencySymbol() {
