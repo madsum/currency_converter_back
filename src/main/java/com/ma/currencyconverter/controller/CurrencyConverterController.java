@@ -36,6 +36,9 @@ public class CurrencyConverterController {
         double doubleAmount = 0d;
         ExchangeCurrencyInfo exchangeCurrencyInfo;
         try {
+            if(amount.contains(",")){
+                amount = amount.replace(",", ".");
+            }
             doubleAmount = Double.parseDouble(amount);
             exchangeCurrencyInfo = foreignExchangeRateService.getExchangeCurrencyInfo(currency,exCurrency,doubleAmount);
         }catch (NumberFormatException | IOException ex){
