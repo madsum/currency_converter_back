@@ -70,7 +70,8 @@ public class ExchangeCurrencyInfo {
         NumberFormat nF = NumberFormat.getInstance(numberLocale);
         nF.setMinimumFractionDigits(2);
         nF.setMaximumFractionDigits(4);
-        if(currencySymbol.equals("€")){
+        if(currencySymbol.equalsIgnoreCase("€") ||
+                currencySymbol.equalsIgnoreCase("EUR")){
             localNumberFormatStr = "Valuuttakurssi on: "+nF.format(rate)+"\n"
                     + amount +" "+currency+" vaihto summa on "
                     + nF.format(exchangeAmount)+" "+currencySymbol;
