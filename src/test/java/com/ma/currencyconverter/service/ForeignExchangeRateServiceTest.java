@@ -3,7 +3,6 @@ package com.ma.currencyconverter.service;
 import com.google.gson.JsonObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.io.IOException;
