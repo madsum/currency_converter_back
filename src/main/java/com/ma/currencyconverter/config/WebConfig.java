@@ -11,7 +11,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/excurrency/**")
-                .allowedOrigins("currency-converter-back.herokuapp.com")
+                .allowedOrigins("https://currency-converter-back.herokuapp.com",
+                        "https://currency-converter-front.herokuapp.com")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowCredentials(false).maxAge(3600);
     }
