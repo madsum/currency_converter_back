@@ -40,10 +40,10 @@ public class ForeignExchangeRateService {
     public ExchangeCurrencyInfo getExchangeCurrencyInfo(String currency, String exchangeCurrency, Double amount ) throws IOException {
         String strUrl;
         // define which url to use for exchange rate
-        if (!currency.isEmpty() && !exchangeCurrency.isEmpty()) {
-            strUrl = exchangeRateApi + currency;
-        } else {
+        if (currency.equalsIgnoreCase("EUR")) {
             strUrl = europeanCentralBankExchangeUrl;
+        } else {
+            strUrl = exchangeRateApi + currency;
         }
         // Making Request
         URL url = null;
