@@ -10,6 +10,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**");
+        registry.addMapping("/excurrency/**")
+                .allowedOrigins("currency-converter-back.herokuapp.com")
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowCredentials(false).maxAge(3600);
     }
 }
