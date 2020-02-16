@@ -1,20 +1,10 @@
-# Start with a base image containing Java runtime
-FROM openjdk:8-jdk-alpine
-
-# Add Maintainer Info
-LABEL maintainer="madsum@gmail.com"
-
-# Add a volume pointing to /tmp
-VOLUME /tmp
-
-# Make port 8080 available to the world outside this container
-EXPOSE 8080
-
-# The application's jar file
-ARG JAR_FILE=/target/currencyconverter-0.0.1-SNAPSHOT.jar.original
-
-# Add the application's jar to the container
-ADD ${JAR_FILE} currencyconverter.jar
-
-# Run the jar file
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/currencyconverter.jar"]
+FROM maven:3.5.2-jdk-8-alpine AS MAVEN_BUILD
+MAINTAINER Masum Islam
+COPY pom.xml /build/
+COPY src /build/src/
+WORKDIR /build/
+RUN mvn package
+FROM openjdk:8-jre-alpine
+WORKDIR /app
+COPY --from=MAVEN_BUILD /build//target/currencyconverter-0.0.1-SNAPSHOT.jar /app/
+ENTRYPOINT ["java", "-jar", "currencyconverter-0.0.1-SNAPSHOT.jar"]
